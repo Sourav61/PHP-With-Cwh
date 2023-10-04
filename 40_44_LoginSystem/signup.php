@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $showError = "Username already exists!";
     } else {
         if (($password == $cpassword)) {
-            $sql = "INSERT INTO `users` (`sno`, `username`, `password`, `dt`) VALUES (NULL, '$username', '$password', 'current_timestamp()')";
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO `users` (`sno`, `username`, `password`, `dt`) VALUES (NULL, '$username', '$hash', 'current_timestamp()')";
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
@@ -63,16 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="/LoginSystem/signup.php" method="post">
             <div class="mb-3 col-md-6">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+                <input type="text" maxlength="11" class="form-control" id="username" name="username"
+                    aria-describedby="emailHelp">
                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div>
             <div class="mb-3 col-md-6">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" maxlength="23" class="form-control" id="password" name="password">
             </div>
             <div class="mb-3 col-md-6">
                 <label for="cpassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="cpassword" name="cpassword">
+                <input type="password" maxlength="23" class="form-control" id="cpassword" name="cpassword">
                 <div id="emailHelp" class="form-text">Please make sure both passwords match!</div>
             </div>
             <!-- <div class="mb-3 form-check">
